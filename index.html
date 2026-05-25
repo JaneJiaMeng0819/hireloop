@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///Users/janemeng/Downloads/hireloop_interview_6.html -->
+<!-- saved from url=(0058)file:///Users/janemeng/Downloads/hireloop_interview_7.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -168,11 +168,14 @@ html, body {
   align-items: center;
 }
 #rec-brand {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.6);
+  color: #111;
   text-transform: uppercase;
+  background: rgba(255,255,255,0.92);
+  padding: 6px 14px;
+  border-radius: 20px;
 }
 #attempt-badge {
   background: rgba(255,255,255,0.92);
@@ -188,10 +191,8 @@ html, body {
   position: relative;
   z-index: 10;
   margin: 0 16px;
-  background: rgba(255,255,255,0.09);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 0.5px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.92);
+  border: none;
   border-radius: 16px;
   padding: 14px 16px;
 }
@@ -199,14 +200,14 @@ html, body {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.15em;
-  color: rgba(255,255,255,0.4);
+  color: #999;
   text-transform: uppercase;
   margin-bottom: 6px;
 }
 #question-text {
   font-size: 15px;
   line-height: 1.5;
-  color: #fff;
+  color: #111;
 }
 
 #spacer { flex: 1; }
@@ -344,7 +345,7 @@ html, body {
 <body>
 
 <!-- LANDING -->
-<div id="landing">
+<div id="landing" style="display: none;">
   <div id="landing-top">
     <div id="landing-brand">HireLoop</div>
     <div id="landing-logo"><i class="ti ti-video" aria-hidden="true"></i></div>
@@ -390,9 +391,9 @@ html, body {
 </div>
 
 <!-- RECORDER -->
-<div id="recorder">
+<div id="recorder" class="active">
   <video id="video-bg" autoplay="" muted="" playsinline=""></video>
-  <div id="video-placeholder">
+  <div id="video-placeholder" style="display: none;">
     <i class="ti ti-video-off cam-icon"></i>
   </div>
 
