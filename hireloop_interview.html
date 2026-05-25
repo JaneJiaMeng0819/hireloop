@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>HireLoop — Video Interview</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: #000;
+  font-family: -apple-system, 'SF Pro Display', sans-serif;
+  height: 100%;
+  overflow: hidden;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#video-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+  z-index: 0;
+}
+
+#video-placeholder {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background: #0a0a0a;
+}
+
+#video-placeholder .cam-icon {
+  color: #333;
+  font-size: 48px;
+}
+
+#top-bar {
+  position: relative;
+  z-index: 10;
+  padding: 56px 20px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#brand {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}
+
+#attempt-badge {
+  background: rgba(255,255,255,0.12);
+  border: 0.5px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+#attempt-badge span {
+  color: #fff;
+  font-weight: 700;
+}
+
+#question-card {
+  position: relative;
+  z-index: 10;
+  margin: 0 16px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+
+#question-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+#question-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #fff;
+  font-weight: 400;
+}
+
+#spacer { flex: 1; }
+
+#rec-indicator {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 32px;
+  margin-bottom: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#rec-indicator.visible { opacity: 1; }
+
+#rec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff3b30;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+#rec-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #ff3b30;
+  text-transform: uppercase;
+}
+
+#timer-display {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  font-variant-numeric: tabular-nums;
+  margin-left: 4px;
+}
+
+#bottom-area {
+  position: relative;
+  z-index: 10;
+  padding: 0 20px 48px;
+}
+
+#controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 20px;
+}
+
+.side-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 0.5px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.side-btn:hover { background: rgba(255,255,255,0.18); }
+
+#rec-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.8);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+#rec-btn:hover { border-color: #fff; transform: scale(1.03); }
+#rec-btn:active { transform: scale(0.97); }
+
+#rec-btn-inner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #ff3b30;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#rec-btn.recording #rec-btn-inner {
+  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  background: #ff3b30;
+}
+
+#attempts-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.attempt-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  transition: all 0.3s;
+}
+.attempt-dot.used { background: rgba(255,59,48,0.7); }
+.attempt-dot.active { background: #fff; width: 18px; border-radius: 3px; }
+
+#status-msg {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 10px;
+  letter-spacing: 0.03em;
+  min-height: 16px;
+}
+
+#done-overlay {
+  display: none;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 20;
+  background: rgba(0,0,0,0.85);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px;
+}
+
+#done-overlay.visible { display: flex; }
+
+#done-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(52,199,89,0.15);
+  border: 1px solid rgba(52,199,89,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #34c759;
+}
+
+#done-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+#done-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  line-height: 1.6;
+}
+
+#retry-btn {
+  margin-top: 8px;
+  padding: 12px 32px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.1);
+  border: 0.5px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+#retry-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
+</style>
+</head>
+<body>
+<div id="app">
+  <video id="video-bg" autoplay muted playsinline></video>
+  <div id="video-placeholder">
+    <i class="ti ti-video-off cam-icon"></i>
+  </div>
+
+  <div id="top-bar">
+    <div id="brand">HireLoop</div>
+    <div id="attempt-badge">Attempt <span id="attempt-num">1</span> of 3</div>
+  </div>
+
+  <div id="question-card">
+    <div id="question-label">Your question</div>
+    <div id="question-text">Tell us more about yourself and why you are applying for this position.</div>
+  </div>
+
+  <div id="spacer"></div>
+
+  <div id="rec-indicator">
+    <div id="rec-dot"></div>
+    <div id="rec-label">REC</div>
+    <div id="timer-display">0:00</div>
+  </div>
+
+  <div id="bottom-area">
+    <div id="controls">
+      <div class="side-btn" id="flip-btn" title="Flip camera">
+        <i class="ti ti-refresh"></i>
+      </div>
+
+      <div id="rec-btn" onclick="toggleRecord()">
+        <div id="rec-btn-inner"></div>
+      </div>
+
+      <div class="side-btn" id="mute-btn" title="Mute">
+        <i class="ti ti-microphone" id="mic-icon"></i>
+      </div>
+    </div>
+
+    <div id="attempts-row">
+      <div class="attempt-dot active" id="dot-1"></div>
+      <div class="attempt-dot" id="dot-2"></div>
+      <div class="attempt-dot" id="dot-3"></div>
+    </div>
+
+    <div id="status-msg">Tap to start recording</div>
+  </div>
+
+  <div id="done-overlay">
+    <div id="done-icon"><i class="ti ti-check"></i></div>
+    <div id="done-title">Response submitted</div>
+    <div id="done-sub">Your video has been sent.<br>The hiring team will be in touch.</div>
+    <div id="retry-btn" onclick="resetAll()">Start over</div>
+  </div>
+</div>
+
+<script>
+let isRecording = false;
+let currentAttempt = 1;
+let timerInterval = null;
+let seconds = 0;
+let muted = false;
+let stream = null;
+
+async function startCamera() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true });
+    const vid = document.getElementById('video-bg');
+    vid.srcObject = stream;
+    document.getElementById('video-placeholder').style.display = 'none';
+  } catch(e) {
+    console.log('Camera not available');
+  }
+}
+
+startCamera();
+
+function toggleRecord() {
+  if (isRecording) {
+    stopRecording();
+  } else {
+    startRecording();
+  }
+}
+
+function startRecording() {
+  isRecording = true;
+  seconds = 0;
+  document.getElementById('rec-btn').classList.add('recording');
+  document.getElementById('rec-indicator').classList.add('visible');
+  document.getElementById('status-msg').textContent = 'Recording... tap to stop';
+  timerInterval = setInterval(() => {
+    seconds++;
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    document.getElementById('timer-display').textContent = m + ':' + String(s).padStart(2, '0');
+  }, 1000);
+}
+
+function stopRecording() {
+  isRecording = false;
+  clearInterval(timerInterval);
+  document.getElementById('rec-btn').classList.remove('recording');
+  document.getElementById('rec-indicator').classList.remove('visible');
+
+  const dot = document.getElementById('dot-' + currentAttempt);
+  dot.classList.remove('active');
+  dot.classList.add('used');
+
+  if (currentAttempt < 3) {
+    currentAttempt++;
+    document.getElementById('attempt-num').textContent = currentAttempt;
+    const nextDot = document.getElementById('dot-' + currentAttempt);
+    nextDot.classList.add('active');
+    document.getElementById('status-msg').textContent = 'Attempt ' + (currentAttempt - 1) + ' saved — tap to record again';
+  } else {
+    setTimeout(() => {
+      document.getElementById('done-overlay').classList.add('visible');
+    }, 600);
+  }
+}
+
+document.getElementById('mute-btn').onclick = function() {
+  muted = !muted;
+  const icon = document.getElementById('mic-icon');
+  icon.className = muted ? 'ti ti-microphone-off' : 'ti ti-microphone';
+  this.style.background = muted ? 'rgba(255,59,48,0.25)' : '';
+  if (stream) {
+    stream.getAudioTracks().forEach(t => t.enabled = !muted);
+  }
+};
+
+document.getElementById('flip-btn').onclick = function() {
+  this.style.transform = 'rotate(180deg)';
+  setTimeout(() => this.style.transform = '', 300);
+  if (stream) {
+    const currentFacing = stream.getVideoTracks()[0]?.getSettings()?.facingMode;
+    const newFacing = currentFacing === 'user' ? 'environment' : 'user';
+    stream.getTracks().forEach(t => t.stop());
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: newFacing }, audio: true })
+      .then(newStream => {
+        stream = newStream;
+        document.getElementById('video-bg').srcObject = newStream;
+        if (muted) newStream.getAudioTracks().forEach(t => t.enabled = false);
+      }).catch(() => {});
+  }
+};
+
+function resetAll() {
+  currentAttempt = 1;
+  isRecording = false;
+  seconds = 0;
+  clearInterval(timerInterval);
+  document.getElementById('attempt-num').textContent = '1';
+  document.getElementById('rec-btn').classList.remove('recording');
+  document.getElementById('rec-indicator').classList.remove('visible');
+  document.getElementById('done-overlay').classList.remove('visible');
+  document.getElementById('status-msg').textContent = 'Tap to start recording';
+  for (let i = 1; i <= 3; i++) {
+    const d = document.getElementById('dot-' + i);
+    d.classList.remove('used', 'active');
+  }
+  document.getElementById('dot-1').classList.add('active');
+}
+</script>
+</body>
+</html>
