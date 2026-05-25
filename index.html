@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<!-- saved from url=(0058)file:///Users/janemeng/Downloads/hireloop_interview_6.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>HireLoop — Video Interview</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="./HireLoop — Video Interview_files/tabler-icons.min.css">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
@@ -14,70 +14,173 @@ html, body {
   overflow: hidden;
 }
 
-#app {
+/* ── LANDING PAGE ── */
+#landing {
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
+  background: #f5f5f0;
+  display: flex;
+  flex-direction: column;
+  padding: max(env(safe-area-inset-top,16px),40px) 28px max(env(safe-area-inset-bottom,16px),36px);
+}
+#landing-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+#landing-brand {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #999;
+  text-transform: uppercase;
+}
+#landing-logo {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: #111;
+  display: flex; align-items: center; justify-content: center;
+}
+#landing-logo i { color: #fff; font-size: 18px; }
+
+#landing-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+#store-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ebebeb;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+#store-tag i { font-size: 14px; color: #888; }
+
+#landing-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.25;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+#landing-title span { color: #555; }
+
+#landing-desc {
+  font-size: 15px;
+  color: #777;
+  line-height: 1.65;
+  margin-bottom: 36px;
+}
+
+#landing-info {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e8e8e8;
+  padding: 16px 18px;
+  margin-bottom: 36px;
+}
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+}
+.info-row + .info-row {
+  border-top: 1px solid #f0f0f0;
+  margin-top: 4px;
+  padding-top: 10px;
+}
+.info-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: #f5f5f0;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.info-icon i { font-size: 16px; color: #666; }
+.info-label { font-size: 12px; color: #aaa; }
+.info-value { font-size: 14px; font-weight: 600; color: #222; margin-top: 1px; }
+
+#start-btn {
+  width: 100%;
+  padding: 17px;
+  border-radius: 14px;
+  background: #111;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  letter-spacing: -0.01em;
+}
+#start-btn:active { transform: scale(0.98); background: #333; }
+#start-btn i { font-size: 18px; }
+
+/* ── RECORDER ── */
+#recorder {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   background: #000;
   position: relative;
   overflow: hidden;
-  display: flex;
   flex-direction: column;
 }
+#recorder.active { display: flex; }
 
 #video-bg {
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   height: 100%;
   object-fit: cover;
   width: 100%;
   z-index: 0;
+  transform: scaleX(-1);
 }
-
 #video-placeholder {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   z-index: 1;
   background: #0a0a0a;
 }
-
-#video-placeholder .cam-icon {
-  color: #333;
-  font-size: 48px;
-}
+#video-placeholder .cam-icon { color: #333; font-size: 48px; }
 
 #top-bar {
   position: relative;
   z-index: 10;
-  padding: 56px 20px 16px;
+  padding: max(env(safe-area-inset-top,16px),16px) 20px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
-#brand {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.5);
+#rec-brand {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.6);
   text-transform: uppercase;
 }
-
 #attempt-badge {
-  background: rgba(255,255,255,0.12);
-  border: 0.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.92);
+  border: none;
   border-radius: 20px;
-  padding: 5px 14px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.7);
-  font-weight: 500;
-  letter-spacing: 0.03em;
-}
-
-#attempt-badge span {
-  color: #fff;
+  padding: 6px 16px;
+  font-size: 15px;
+  color: #111;
   font-weight: 700;
 }
 
@@ -85,228 +188,216 @@ html, body {
   position: relative;
   z-index: 10;
   margin: 0 16px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.09);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 0.5px solid rgba(255,255,255,0.15);
   border-radius: 16px;
-  padding: 18px 20px;
+  padding: 14px 16px;
 }
-
 #question-label {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.15em;
   color: rgba(255,255,255,0.4);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
-
 #question-text {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.5;
   color: #fff;
-  font-weight: 400;
 }
 
 #spacer { flex: 1; }
 
 #rec-indicator {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 32px;
-  margin-bottom: 8px;
-  opacity: 0;
-  transition: opacity 0.3s;
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; height: 28px; margin-bottom: 4px;
+  opacity: 0; transition: opacity 0.3s;
 }
-
 #rec-indicator.visible { opacity: 1; }
-
 #rec-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ff3b30;
-  animation: blink 1s infinite;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #ff3b30; animation: blink 1s infinite;
 }
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 #rec-label {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: #ff3b30;
-  text-transform: uppercase;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.15em; color: #ff3b30; text-transform: uppercase;
+}
+#timer-display {
+  font-size: 14px; color: rgba(255,255,255,0.8);
+  font-variant-numeric: tabular-nums; margin-left: 4px; font-weight: 600;
 }
 
-#timer-display {
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-  font-variant-numeric: tabular-nums;
-  margin-left: 4px;
+#countdown-wrap {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 8px; height: 8px;
+}
+#countdown-bar-bg {
+  width: 160px; height: 4px;
+  background: rgba(255,255,255,0.15); border-radius: 2px; overflow: hidden;
+}
+#countdown-bar {
+  height: 100%; width: 100%;
+  background: #ff3b30; border-radius: 2px; transition: width 1s linear;
 }
 
 #bottom-area {
-  position: relative;
-  z-index: 10;
-  padding: 0 20px 48px;
+  position: relative; z-index: 10;
+  padding: 0 20px;
+  padding-bottom: max(env(safe-area-inset-bottom,16px),24px);
 }
-
 #controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 32px; margin-bottom: 16px;
 }
-
 .side-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 44px; height: 44px; border-radius: 50%;
   background: rgba(255,255,255,0.1);
   border: 0.5px solid rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.7);
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
+  color: rgba(255,255,255,0.7); font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
 }
-.side-btn:hover { background: rgba(255,255,255,0.18); }
+.side-btn.disabled { opacity: 0.3; pointer-events: none; }
 
 #rec-btn {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+  width: 72px; height: 72px; border-radius: 50%;
   border: 3px solid rgba(255,255,255,0.8);
   background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
 }
-
-#rec-btn:hover { border-color: #fff; transform: scale(1.03); }
 #rec-btn:active { transform: scale(0.97); }
-
+#rec-btn.disabled { opacity: 0.4; pointer-events: none; }
 #rec-btn-inner {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 54px; height: 54px; border-radius: 50%;
   background: #ff3b30;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
 }
-
 #rec-btn.recording #rec-btn-inner {
-  border-radius: 10px;
-  width: 32px;
-  height: 32px;
-  background: #ff3b30;
+  border-radius: 10px; width: 28px; height: 28px;
 }
 
 #attempts-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
 }
-
 .attempt-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  transition: all 0.3s;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.25); transition: all 0.3s;
 }
 .attempt-dot.used { background: rgba(255,59,48,0.7); }
 .attempt-dot.active { background: #fff; width: 18px; border-radius: 3px; }
 
 #status-msg {
-  text-align: center;
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
-  margin-top: 10px;
-  letter-spacing: 0.03em;
-  min-height: 16px;
+  text-align: center; font-size: 12px;
+  color: rgba(255,255,255,0.4); margin-top: 8px;
+  letter-spacing: 0.03em; min-height: 16px;
 }
 
-#done-overlay {
-  display: none;
-  position: absolute;
+#upload-overlay {
+  display: none; position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 20;
-  background: rgba(0,0,0,0.85);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 40px;
+  z-index: 20; background: rgba(0,0,0,0.75);
+  flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 40px;
 }
-
-#done-overlay.visible { display: flex; }
-
-#done-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(52,199,89,0.15);
-  border: 1px solid rgba(52,199,89,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  color: #34c759;
+#upload-overlay.visible { display: flex; }
+.upload-spinner {
+  width: 56px; height: 56px;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: #fff; border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
+#upload-title { font-size: 18px; font-weight: 600; color: #fff; }
+#upload-sub { font-size: 13px; color: rgba(255,255,255,0.45); text-align: center; line-height: 1.6; }
 
-#done-title {
-  font-size: 22px;
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
+#result-overlay {
+  display: none; position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 21; background: rgba(0,0,0,0.82);
+  flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 40px;
 }
-
-#done-sub {
-  font-size: 14px;
-  color: rgba(255,255,255,0.5);
-  text-align: center;
-  line-height: 1.6;
+#result-overlay.visible { display: flex; }
+#result-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 28px;
+  background: rgba(52,199,89,0.15); border: 1px solid rgba(52,199,89,0.4); color: #34c759;
 }
-
-#retry-btn {
-  margin-top: 8px;
-  padding: 12px 32px;
-  border-radius: 24px;
-  background: rgba(255,255,255,0.1);
-  border: 0.5px solid rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.7);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
+#result-title { font-size: 20px; font-weight: 600; color: #fff; text-align: center; }
+#result-sub { font-size: 14px; color: rgba(255,255,255,0.5); text-align: center; line-height: 1.7; }
+#result-tries { display: flex; gap: 10px; margin-top: 4px; }
+.try-pip { width: 10px; height: 10px; border-radius: 50%; }
+.try-pip.used { background: rgba(255,59,48,0.7); }
+.try-pip.left { background: rgba(255,255,255,0.5); }
+#continue-btn {
+  margin-top: 8px; padding: 13px 36px; border-radius: 24px;
+  background: rgba(255,255,255,0.12); border: 0.5px solid rgba(255,255,255,0.25);
+  color: #fff; font-size: 15px; font-weight: 500; cursor: pointer;
 }
-#retry-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
 </style>
 </head>
 <body>
-<div id="app">
-  <video id="video-bg" autoplay muted playsinline></video>
+
+<!-- LANDING -->
+<div id="landing">
+  <div id="landing-top">
+    <div id="landing-brand">HireLoop</div>
+    <div id="landing-logo"><i class="ti ti-video" aria-hidden="true"></i></div>
+  </div>
+
+  <div id="landing-body">
+    <div id="store-tag">
+      <i class="ti ti-building-store" aria-hidden="true"></i>
+      Shop Rainbow
+    </div>
+    <div id="landing-title">Video Interview<br><span>for Retail Associate</span></div>
+    <div id="landing-desc">Answer one question on camera. You have up to 3 attempts and 30 seconds each. Your best take will be submitted automatically.</div>
+
+    <div id="landing-info">
+      <div class="info-row">
+        <div class="info-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
+        <div>
+          <div class="info-label">Time limit</div>
+          <div class="info-value">30 seconds per attempt</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon"><i class="ti ti-repeat" aria-hidden="true"></i></div>
+        <div>
+          <div class="info-label">Attempts</div>
+          <div class="info-value">Up to 3 tries</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon"><i class="ti ti-camera" aria-hidden="true"></i></div>
+        <div>
+          <div class="info-label">Requirements</div>
+          <div class="info-value">Camera &amp; microphone access</div>
+        </div>
+      </div>
+    </div>
+
+    <button id="start-btn" onclick="startInterview()">
+      <i class="ti ti-player-record" aria-hidden="true"></i>
+      Start Interview
+    </button>
+  </div>
+</div>
+
+<!-- RECORDER -->
+<div id="recorder">
+  <video id="video-bg" autoplay="" muted="" playsinline=""></video>
   <div id="video-placeholder">
     <i class="ti ti-video-off cam-icon"></i>
   </div>
 
   <div id="top-bar">
-    <div id="brand">HireLoop</div>
+    <div id="rec-brand">Shop Rainbow</div>
     <div id="attempt-badge">Attempt <span id="attempt-num">1</span> of 3</div>
   </div>
 
@@ -320,82 +411,86 @@ html, body {
   <div id="rec-indicator">
     <div id="rec-dot"></div>
     <div id="rec-label">REC</div>
-    <div id="timer-display">0:00</div>
+    <div id="timer-display">0:30</div>
+  </div>
+  <div id="countdown-wrap">
+    <div id="countdown-bar-bg"><div id="countdown-bar"></div></div>
   </div>
 
   <div id="bottom-area">
     <div id="controls">
-      <div class="side-btn" id="flip-btn" title="Flip camera">
-        <i class="ti ti-refresh"></i>
-      </div>
-
-      <div id="rec-btn" onclick="toggleRecord()">
-        <div id="rec-btn-inner"></div>
-      </div>
-
-      <div class="side-btn" id="mute-btn" title="Mute">
-        <i class="ti ti-microphone" id="mic-icon"></i>
-      </div>
+      <div class="side-btn" id="flip-btn"><i class="ti ti-refresh"></i></div>
+      <div id="rec-btn" onclick="toggleRecord()"><div id="rec-btn-inner"></div></div>
+      <div class="side-btn" id="mute-btn"><i class="ti ti-microphone" id="mic-icon"></i></div>
     </div>
-
     <div id="attempts-row">
       <div class="attempt-dot active" id="dot-1"></div>
       <div class="attempt-dot" id="dot-2"></div>
       <div class="attempt-dot" id="dot-3"></div>
     </div>
-
     <div id="status-msg">Tap to start recording</div>
   </div>
 
-  <div id="done-overlay">
-    <div id="done-icon"><i class="ti ti-check"></i></div>
-    <div id="done-title">Response submitted</div>
-    <div id="done-sub">Your video has been sent.<br>The hiring team will be in touch.</div>
-    <div id="retry-btn" onclick="resetAll()">Start over</div>
+  <div id="upload-overlay">
+    <div class="upload-spinner"></div>
+    <div id="upload-title">Uploading...</div>
+    <div id="upload-sub">Please wait</div>
+  </div>
+
+  <div id="result-overlay">
+    <div id="result-icon"><i class="ti ti-check"></i></div>
+    <div id="result-title"></div>
+    <div id="result-sub"></div>
+    <div id="result-tries"></div>
+    <div id="continue-btn" onclick="continueAfterResult()">Try again</div>
   </div>
 </div>
 
 <script>
+const MAX_SECONDS = 30;
 let isRecording = false;
 let currentAttempt = 1;
 let timerInterval = null;
-let seconds = 0;
+let secondsLeft = MAX_SECONDS;
 let muted = false;
 let stream = null;
+let facingMode = 'user';
 
-async function startCamera() {
+async function startInterview() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('recorder').classList.add('active');
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true });
-    const vid = document.getElementById('video-bg');
-    vid.srcObject = stream;
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode }, audio: true });
+    document.getElementById('video-bg').srcObject = stream;
     document.getElementById('video-placeholder').style.display = 'none';
-  } catch(e) {
-    console.log('Camera not available');
-  }
+  } catch(e) {}
 }
 
-startCamera();
-
 function toggleRecord() {
-  if (isRecording) {
-    stopRecording();
-  } else {
-    startRecording();
-  }
+  if (isRecording) stopRecording();
+  else startRecording();
 }
 
 function startRecording() {
   isRecording = true;
-  seconds = 0;
+  secondsLeft = MAX_SECONDS;
+  updateTimerDisplay();
+  document.getElementById('countdown-bar').style.width = '100%';
   document.getElementById('rec-btn').classList.add('recording');
   document.getElementById('rec-indicator').classList.add('visible');
   document.getElementById('status-msg').textContent = 'Recording... tap to stop';
   timerInterval = setInterval(() => {
-    seconds++;
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    document.getElementById('timer-display').textContent = m + ':' + String(s).padStart(2, '0');
+    secondsLeft--;
+    updateTimerDisplay();
+    document.getElementById('countdown-bar').style.width = (secondsLeft / MAX_SECONDS * 100) + '%';
+    if (secondsLeft <= 0) stopRecording();
   }, 1000);
+}
+
+function updateTimerDisplay() {
+  const s = Math.max(0, secondsLeft);
+  document.getElementById('timer-display').textContent = '0:' + String(s).padStart(2, '0');
+  document.getElementById('timer-display').style.color = s <= 10 ? '#ff3b30' : 'rgba(255,255,255,0.8)';
 }
 
 function stopRecording() {
@@ -403,66 +498,76 @@ function stopRecording() {
   clearInterval(timerInterval);
   document.getElementById('rec-btn').classList.remove('recording');
   document.getElementById('rec-indicator').classList.remove('visible');
+  document.getElementById('countdown-bar').style.width = '0%';
+  document.getElementById('dot-' + currentAttempt).classList.remove('active');
+  document.getElementById('dot-' + currentAttempt).classList.add('used');
+  showUploading();
+}
 
-  const dot = document.getElementById('dot-' + currentAttempt);
-  dot.classList.remove('active');
-  dot.classList.add('used');
+function showUploading() {
+  document.getElementById('rec-btn').classList.add('disabled');
+  document.getElementById('flip-btn').classList.add('disabled');
+  document.getElementById('mute-btn').classList.add('disabled');
+  document.getElementById('upload-overlay').classList.add('visible');
+  setTimeout(() => {
+    document.getElementById('upload-overlay').classList.remove('visible');
+    showResult();
+  }, 2200);
+}
 
-  if (currentAttempt < 3) {
-    currentAttempt++;
-    document.getElementById('attempt-num').textContent = currentAttempt;
-    const nextDot = document.getElementById('dot-' + currentAttempt);
-    nextDot.classList.add('active');
-    document.getElementById('status-msg').textContent = 'Attempt ' + (currentAttempt - 1) + ' saved — tap to record again';
-  } else {
-    setTimeout(() => {
-      document.getElementById('done-overlay').classList.add('visible');
-    }, 600);
+function showResult() {
+  const isFinal = currentAttempt >= 3;
+  const remaining = 3 - currentAttempt;
+  document.getElementById('result-title').textContent = isFinal ? 'Response submitted' : 'Take ' + currentAttempt + ' uploaded';
+  document.getElementById('result-sub').textContent = isFinal
+    ? 'Your video has been sent. The hiring team will be in touch.'
+    : 'You have ' + remaining + ' attempt' + (remaining > 1 ? 's' : '') + ' remaining.';
+  document.getElementById('continue-btn').style.display = isFinal ? 'none' : '';
+  const triesEl = document.getElementById('result-tries');
+  triesEl.innerHTML = '';
+  for (let i = 1; i <= 3; i++) {
+    const pip = document.createElement('div');
+    pip.className = 'try-pip ' + (i <= currentAttempt ? 'used' : 'left');
+    triesEl.appendChild(pip);
   }
+  document.getElementById('result-overlay').classList.add('visible');
+}
+
+function continueAfterResult() {
+  document.getElementById('result-overlay').classList.remove('visible');
+  currentAttempt++;
+  document.getElementById('attempt-num').textContent = currentAttempt;
+  document.getElementById('dot-' + currentAttempt).classList.add('active');
+  document.getElementById('rec-btn').classList.remove('disabled');
+  document.getElementById('flip-btn').classList.remove('disabled');
+  document.getElementById('mute-btn').classList.remove('disabled');
+  secondsLeft = MAX_SECONDS;
+  updateTimerDisplay();
+  document.getElementById('countdown-bar').style.width = '100%';
+  document.getElementById('status-msg').textContent = 'Tap to start recording';
 }
 
 document.getElementById('mute-btn').onclick = function() {
   muted = !muted;
-  const icon = document.getElementById('mic-icon');
-  icon.className = muted ? 'ti ti-microphone-off' : 'ti ti-microphone';
+  document.getElementById('mic-icon').className = muted ? 'ti ti-microphone-off' : 'ti ti-microphone';
   this.style.background = muted ? 'rgba(255,59,48,0.25)' : '';
-  if (stream) {
-    stream.getAudioTracks().forEach(t => t.enabled = !muted);
-  }
+  if (stream) stream.getAudioTracks().forEach(t => t.enabled = !muted);
 };
 
-document.getElementById('flip-btn').onclick = function() {
+document.getElementById('flip-btn').onclick = async function() {
   this.style.transform = 'rotate(180deg)';
   setTimeout(() => this.style.transform = '', 300);
+  facingMode = facingMode === 'user' ? 'environment' : 'user';
   if (stream) {
-    const currentFacing = stream.getVideoTracks()[0]?.getSettings()?.facingMode;
-    const newFacing = currentFacing === 'user' ? 'environment' : 'user';
     stream.getTracks().forEach(t => t.stop());
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: newFacing }, audio: true })
-      .then(newStream => {
-        stream = newStream;
-        document.getElementById('video-bg').srcObject = newStream;
-        if (muted) newStream.getAudioTracks().forEach(t => t.enabled = false);
-      }).catch(() => {});
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode }, audio: true });
+      document.getElementById('video-bg').srcObject = stream;
+      if (muted) stream.getAudioTracks().forEach(t => t.enabled = false);
+    } catch(e) {}
   }
 };
-
-function resetAll() {
-  currentAttempt = 1;
-  isRecording = false;
-  seconds = 0;
-  clearInterval(timerInterval);
-  document.getElementById('attempt-num').textContent = '1';
-  document.getElementById('rec-btn').classList.remove('recording');
-  document.getElementById('rec-indicator').classList.remove('visible');
-  document.getElementById('done-overlay').classList.remove('visible');
-  document.getElementById('status-msg').textContent = 'Tap to start recording';
-  for (let i = 1; i <= 3; i++) {
-    const d = document.getElementById('dot-' + i);
-    d.classList.remove('used', 'active');
-  }
-  document.getElementById('dot-1').classList.add('active');
-}
 </script>
-</body>
-</html>
+
+
+</body></html>
