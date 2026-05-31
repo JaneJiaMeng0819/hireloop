@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///Users/janemeng/Downloads/hireloop_interview_8.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>HireLoop — Video Interview</title>
-<link rel="stylesheet" href="./HireLoop — Video Interview Version1_files/tabler-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
@@ -300,6 +300,26 @@ html, body {
   letter-spacing: 0.03em; min-height: 16px;
 }
 
+#countdown-overlay {
+  display: none; position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 25; background: rgba(0,0,0,0.6);
+  align-items: center; justify-content: center;
+}
+#countdown-overlay.visible { display: flex; }
+#countdown-number {
+  font-size: 180px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  animation: popIn 0.3s ease-out;
+}
+@keyframes popIn {
+  0% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 #upload-overlay {
   display: none; position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -352,10 +372,6 @@ html, body {
   </div>
 
   <div id="landing-body">
-    <div id="store-tag">
-      <i class="ti ti-building-store" aria-hidden="true"></i>
-      Shop Rainbow
-    </div>
     <div id="landing-title">Video Interview<br><span>for Retail Associate</span></div>
     <div id="landing-desc">Answer one question on camera. You have up to 3 attempts and 30 seconds each. Your best take will be submitted automatically.</div>
 
@@ -378,7 +394,7 @@ html, body {
         <div class="info-icon"><i class="ti ti-camera" aria-hidden="true"></i></div>
         <div>
           <div class="info-label">Requirements</div>
-          <div class="info-value">Camera &amp; microphone access</div>
+          <div class="info-value">Camera & microphone access</div>
         </div>
       </div>
     </div>
@@ -392,13 +408,13 @@ html, body {
 
 <!-- RECORDER -->
 <div id="recorder">
-  <video id="video-bg" autoplay="" muted="" playsinline=""></video>
+  <video id="video-bg" autoplay muted playsinline></video>
   <div id="video-placeholder">
     <i class="ti ti-video-off cam-icon"></i>
   </div>
 
   <div id="top-bar">
-    <div id="rec-brand">Shop Rainbow</div>
+    <div></div>
     <div id="attempt-badge">Attempt <span id="attempt-num">1</span> of 3</div>
   </div>
 
@@ -438,6 +454,10 @@ html, body {
     <div id="upload-sub">Please wait</div>
   </div>
 
+  <div id="countdown-overlay">
+    <div id="countdown-number"></div>
+  </div>
+
   <div id="result-overlay">
     <div id="result-icon"><i class="ti ti-check"></i></div>
     <div id="result-title"></div>
@@ -469,7 +489,30 @@ async function startInterview() {
 
 function toggleRecord() {
   if (isRecording) stopRecording();
-  else startRecording();
+  else startCountdown();
+}
+
+function startCountdown() {
+  document.getElementById('rec-btn').classList.add('disabled');
+  const overlay = document.getElementById('countdown-overlay');
+  const numEl = document.getElementById('countdown-number');
+  overlay.classList.add('visible');
+  let count = 3;
+  numEl.textContent = count;
+  const interval = setInterval(() => {
+    count--;
+    if (count <= 0) {
+      clearInterval(interval);
+      overlay.classList.remove('visible');
+      document.getElementById('rec-btn').classList.remove('disabled');
+      startRecording();
+    } else {
+      numEl.textContent = count;
+      numEl.style.animation = 'none';
+      numEl.offsetHeight; // reflow
+      numEl.style.animation = 'popIn 0.3s ease-out';
+    }
+  }, 1000);
 }
 
 function startRecording() {
@@ -569,6 +612,5 @@ document.getElementById('flip-btn').onclick = async function() {
   }
 };
 </script>
-
-
-</body></html>
+</body>
+</html>
